@@ -45,18 +45,67 @@ describe('ProductsComponent', () => {
   });
 
   describe('should test get products initially', () => {
-    it('should get product data initially', () => {});
+    it('should get product data initially', () => {
+      expect(mockProductService.getProducts).toHaveBeenCalled();
+    });
 
-    it('should get product data initially on failure', () => {});
+    it('should get product data initially on failure', () => {
+      mockProductService.getProducts.and.returnValue(throwError('error'));
+      component.getProducts();
+      expect(matSnackBar.open).toHaveBeenCalled();
+    });
   });
 
-  it('should test openDialog', () => {});
+  it('should test openDialog', () => {
+    component.openDialog();
+    expect(dialog.open).toHaveBeenCalled();
+  });
 
-  it('should test editDialog', () => {});
+  it('should test editDialog', () => {
+    const product: Product = {
+      id: '1',
+      title: 'test',
+      price: '100',
+      description: 'test',
+      category: 'test',
+      image: 'test',
+    };
+    component.editProduct(product);
+    expect(dialog.open).toHaveBeenCalled();
+  });
 
   describe('should test deleteProduct', () => {
-    it('should test deleteProduct on success', () => {});
+    it('should test deleteProduct on success', () => {
+      const product: Product = {
+        id: '1',
+        title: 'test',
+        price: '100',
+        description: 'test',
+        category: 'test',
+        image: 'test',
+      };
 
-    it('should test deleteProduct on failure', () => {});
+      // Mocking the deleteProduct method to return a successful observable
+      mockProductService.deleteProduct.and.returnValue(of({}));
+
+      component.deleteProduct(product);
+      
+      expect(mockProductService.deleteProduct).toHaveBeenCalled();
+      expect(matSnackBar.open).toHaveBeenCalled();
+    });
+
+    it('should test deleteProduct on failure', () => {
+      const product: Product = {
+        id: '1',
+        title: 'test',
+        price: '100',
+        description: 'test',
+        category: 'test',
+        image: 'test',
+      };
+      mockProductService.deleteProduct.and.returnValue(throwError('error'));
+      component.deleteProduct(product);
+      expect(matSnackBar.open).toHaveBeenCalled();
+    });
   });
 });

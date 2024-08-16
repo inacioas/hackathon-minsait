@@ -23,7 +23,12 @@ describe('NavBarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should check menuItems array is initialized', () => {});
+  it('should check menuItems array is initialized', () => {
+    expect(component.menuItems).toBeDefined();
+    expect(component.menuItems.length).toBeGreaterThan(0);
+  });
 
-  it('should check menuItem is rendered', () => {});
+  it('should check menuItem is rendered', () => {
+    expect(component.menuItems.length).toBe(4);
+  });
 });
